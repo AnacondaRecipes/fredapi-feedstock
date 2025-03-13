@@ -6,8 +6,8 @@ package:
   version: "{{ version }}"
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 405ca048abed4207d93dbc9b7ee8c46d6b473483650323e2f1c094af83d4b247
+  url: https://github.com/mortada/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: e3298a263cc259de035f983da1cf853e7970ccc263c972d7a2c5313d0c3d5fe4
 
 build:
   number: 0
@@ -22,12 +22,18 @@ requirements:
     - python
 
 test:
-  imports:
-    - fredapi
-  commands:
-    - pip check
   requires:
     - pip
+    - pytest
+  imports:
+    - fredapi
+  source_files:
+    - fredapi/tests
+  commands:
+    - pip check
+    # test_with_proxies required FRED API key, which should be requested on site
+    {% set ignore_tests = " --ignore=fredapi/tests/test_with_proxies.py" %}
+    - pytest fredapi/tests -v {{ ignore_tests }}
 
 about:
   home: https://github.com/mortada/fredapi
