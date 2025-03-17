@@ -17,6 +17,7 @@ requirements:
   host:
     - pip
     - python
+    - wheel
   run:
     - pandas
     - python
@@ -37,7 +38,8 @@ test:
 
 about:
   home: https://github.com/mortada/fredapi
-  license: Apache 2.0
+  dev_url: https://github.com/mortada/fredapi
+  license: Apache-2.0
   license_family: Apache
   license_file: LICENSE
   summary: Python API for Federal Reserve Economic Data (FRED) from St. Louis Fed
