@@ -19,7 +19,7 @@ requirements:
     - python
     - wheel
   run:
-    - pandas
+    - pandas >=0.15
     - python
 
 test:
@@ -41,10 +41,18 @@ test:
 about:
   home: https://github.com/mortada/fredapi
   dev_url: https://github.com/mortada/fredapi
+  doc_url: https://github.com/mortada/fredapi/blob/master/README.md
   license: Apache-2.0
   license_family: Apache
   license_file: LICENSE
   summary: Python API for Federal Reserve Economic Data (FRED) from St. Louis Fed
+  description: |
+    fredapi is a Python API for the [FRED](http://research.stlouisfed.org/fred2/) data
+    provided by the Federal Reserve Bank of St. Louis. fredapi provides a wrapper
+    in python to the [FRED web service](http://api.stlouisfed.org/docs/fred/),
+    and also provides several conveninent methods for parsing and analyzing
+    point-in-time data (i.e. historic data revisions) from [ALFRED](http://research.stlouisfed.org/tips/alfred/).
+    fredapi makes use of pandas and returns data to you in a pandas Series or DataFrame.
 
 extra:
   recipe-maintainers:
