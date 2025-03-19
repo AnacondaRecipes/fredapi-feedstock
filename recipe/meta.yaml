@@ -1,37 +1,58 @@
 {% set name = "fredapi" %}
-{% set version = "0.4.2" %}
+{% set version = "0.5.2" %}
 
 package:
   name: "{{ name|lower }}"
   version: "{{ version }}"
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 753eb21fd75b461d36177eb9da298d1e0ec3ccfd4f64e13e74ffc216a89a2b96
+  url: https://github.com/mortada/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: e3298a263cc259de035f983da1cf853e7970ccc263c972d7a2c5313d0c3d5fe4
 
 build:
   number: 0
-  noarch: python
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   host:
     - pip
     - python
+    - wheel
   run:
-    - pandas
+    - pandas >=0.15
     - python
 
 test:
+  requires:
+    - pip
+    - pytest
   imports:
     - fredapi
+  source_files:
+    - fredapi/tests
+  commands:
+    - pip check
+    # test_with_proxies required FRED API key, which should be requested on site
+    {% set ignore_tests = " --ignore=fredapi/tests/test_with_proxies.py" %}
+    # mysterious ValueError('I/O operation on closed file.')
+    {% set skip_tests = "test_search" %}
+    - pytest fredapi/tests -v -k "not ({{ skip_tests }})" {{ ignore_tests }}
 
 about:
   home: https://github.com/mortada/fredapi
-  license: Apache 2.0
+  dev_url: https://github.com/mortada/fredapi
+  doc_url: https://github.com/mortada/fredapi/blob/master/README.md
+  license: Apache-2.0
   license_family: Apache
   license_file: LICENSE
   summary: Python API for Federal Reserve Economic Data (FRED) from St. Louis Fed
+  description: |
+    fredapi is a Python API for the [FRED](http://research.stlouisfed.org/fred2/) data
+    provided by the Federal Reserve Bank of St. Louis. fredapi provides a wrapper
+    in python to the [FRED web service](http://api.stlouisfed.org/docs/fred/),
+    and also provides several conveninent methods for parsing and analyzing
+    point-in-time data (i.e. historic data revisions) from [ALFRED](http://research.stlouisfed.org/tips/alfred/).
+    fredapi makes use of pandas and returns data to you in a pandas Series or DataFrame.
 
 extra:
   recipe-maintainers:
