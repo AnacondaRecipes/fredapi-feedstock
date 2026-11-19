@@ -10,13 +10,14 @@ source:
   sha256: e3298a263cc259de035f983da1cf853e7970ccc263c972d7a2c5313d0c3d5fe4
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   host:
     - pip
     - python
+    - setuptools
     - wheel
   run:
     - pandas >=0.15
